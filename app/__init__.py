@@ -3,7 +3,7 @@ import os
 
 from flask import Flask
 
-from app import db
+from app import db, seed
 
 # Configured once at import, not on every create_app() call.
 logging.basicConfig(
@@ -26,4 +26,5 @@ def create_app(test_config: dict | None = None) -> Flask:
     os.makedirs(app.instance_path, exist_ok=True)
 
     db.init_app(app)
+    seed.init_app(app)
     return app
