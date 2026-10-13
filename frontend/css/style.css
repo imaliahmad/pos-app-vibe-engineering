@@ -53,11 +53,110 @@ button {
   color: #b00020;
 }
 
-/* POS placeholder */
+/* POS screen */
+body:has(.pos) {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px 16px;
   background: #fff;
+}
+
+.pos {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  gap: 12px;
+  padding: 12px;
+}
+
+.pos-column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 12px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.pos-column h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.button-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.category-button.selected {
+  background: #2a6df4;
+  color: #fff;
+}
+
+.item-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 56px;
+}
+
+.item-price {
+  font-weight: bold;
+}
+
+.order-lines {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.order-line {
+  display: grid;
+  grid-template-columns: 1fr auto auto repeat(3, 48px);
+  gap: 8px;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.order-line-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.order-line-total {
+  min-width: 4.5em;
+  text-align: right;
+}
+
+.qty-button {
+  padding: 0;
+}
+
+.remove-button {
+  color: #b00020;
+}
+
+.order-empty {
+  color: #777;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-top: 2px solid #222;
+  font-size: 24px;
+  font-weight: bold;
 }

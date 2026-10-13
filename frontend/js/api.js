@@ -38,3 +38,11 @@ function apiLogout() {
 function apiMe() {
   return apiRequest("GET", "/api/auth/me");
 }
+
+function apiCategories() {
+  return apiRequest("GET", "/api/categories");
+}
+
+function apiCategoryItems(categoryId) {
+  return apiRequest("GET", `/api/categories/${categoryId}/items`);
+}
