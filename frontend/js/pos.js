@@ -87,11 +87,15 @@ function removeLine(itemId) {
   render();
 }
 
-function createButton(label, className, onClick) {
+// ariaLabel names a button that shows only a symbol (e.g. "−") for screen readers.
+function createButton(label, className, onClick, ariaLabel) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = className;
   button.textContent = label;
+  if (ariaLabel) {
+    button.setAttribute("aria-label", ariaLabel);
+  }
   button.addEventListener("click", onClick);
   return button;
 }
@@ -119,6 +123,7 @@ function render() {
     name.className = "order-line-name";
     name.textContent = line.name;
     const quantity = document.createElement("span");
+    quantity.className = "order-line-qty";
     quantity.textContent = `x${line.quantity}`;
     const amount = document.createElement("span");
     amount.className = "order-line-total";
@@ -128,9 +133,9 @@ function render() {
       name,
       quantity,
       amount,
-      createButton("−", "qty-button", () => changeQuantity(line.item_id, -1)),
-      createButton("+", "qty-button", () => changeQuantity(line.item_id, 1)),
-      createButton("✕", "qty-button remove-button", () => removeLine(line.item_id)),
+      createButton("−", "qty-button", () => changeQuantity(line.item_id, -1), "Decrease"),
+      createButton("+", "qty-button", () => changeQuantity(line.item_id, 1), "Increase"),
+      createButton("✕", "qty-button remove-button", () => removeLine(line.item_id), "Remove"),
     );
     container.appendChild(row);
   }
@@ -203,6 +208,7 @@ async function loadItems(categoryId) {
     button.className = "item-button";
 
     const name = document.createElement("span");
+    name.className = "item-name";
     name.textContent = item.name;
     const price = document.createElement("span");
     price.className = "item-price";

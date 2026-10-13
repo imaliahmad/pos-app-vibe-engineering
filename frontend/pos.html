@@ -8,8 +8,11 @@
 </head>
 <body>
   <header class="topbar">
-    <span id="current-user"></span>
-    <button type="button" id="logout-button">Log out</button>
+    <span class="brand">Quick POS</span>
+    <div class="topbar-user">
+      <span id="current-user"></span>
+      <button type="button" id="logout-button" class="logout-button">Log out</button>
+    </div>
   </header>
   <main class="pos">
     <section class="pos-column">
@@ -29,7 +32,7 @@
       </div>
       <button type="button" id="save-button" class="save-button">SAVE ORDER</button>
       <p id="sale-confirmation" class="sale-confirmation"></p>
-      <p id="message" class="message"></p>
+      <p id="message" class="message" role="alert"></p>
     </section>
   </main>
   <script src="/js/api.js"></script>

@@ -1,59 +1,202 @@
+/* ---------- Design tokens ---------- */
+:root {
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-success: #15803d;
+  --color-success-dark: #166534;
+  --color-success-light: #dcfce7;
+  --color-danger: #b91c1c;
+  --color-danger-light: #fee2e2;
+  --color-text: #1f2937;
+  --color-muted: #6b7280;
+  --color-border: #d1d5db;
+  --color-page: #f3f4f6;
+  --color-panel: #ffffff;
+  --color-button: #f9fafb;
+  --color-button-hover: #eef2f7;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --radius: 8px;
+
+  --font-size-small: 14px;
+  --font-size-base: 18px;
+  --font-size-large: 22px;
+  --font-size-total: 26px;
+
+  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.45);
+}
+
+/* ---------- Base ---------- */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  font-size: 18px;
-  color: #222;
-  background: #f4f4f4;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: var(--font-size-base);
+  line-height: 1.4;
+  color: var(--color-text);
+  background: var(--color-page);
+}
+
+h1,
+h2 {
+  margin: 0;
+  line-height: 1.2;
 }
 
 button,
 input {
   font: inherit;
+  color: inherit;
 }
 
+input {
+  min-height: 48px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-panel);
+}
+
+input:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+/* ---------- Buttons ---------- */
 button {
   min-height: 48px;
-  padding: 0 20px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-button);
   cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  transition: background-color 0.1s, transform 0.05s;
 }
 
-/* Login */
+button:hover:not(:disabled) {
+  background: var(--color-button-hover);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+  transform: none;
+}
+
+/* ---------- Login ---------- */
+body:has(.login) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-4);
+}
+
 .login {
-  max-width: 360px;
-  margin: 80px auto;
-  padding: 32px;
-  background: #fff;
-  border-radius: 8px;
+  width: 100%;
+  max-width: 380px;
+  padding: var(--space-8);
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .login h1 {
-  margin-top: 0;
   text-align: center;
+  font-size: 30px;
+  color: var(--color-primary);
+}
+
+.login-subtitle {
+  margin: var(--space-1) 0 var(--space-6);
+  text-align: center;
+  color: var(--color-muted);
 }
 
 .login form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
+}
+
+.login label {
+  font-size: var(--font-size-small);
+  font-weight: 600;
 }
 
 .login input {
-  min-height: 48px;
-  padding: 0 12px;
-  margin-bottom: 8px;
+  width: 100%;
+  margin-bottom: var(--space-2);
 }
 
+.login button[type="submit"] {
+  width: 100%;
+  min-height: 52px;
+  margin-top: var(--space-2);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  font-weight: bold;
+}
+
+.login button[type="submit"]:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.login .message {
+  text-align: center;
+}
+
+/* ---------- Messages ---------- */
 .message {
   min-height: 1.5em;
   margin: 0;
-  color: #b00020;
+  color: var(--color-danger);
 }
 
-/* POS screen */
+/* On the POS screen, messages are boxes that disappear when empty. */
+.pos .message,
+.sale-confirmation {
+  min-height: 0;
+  margin: 0 0 var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+.pos .message {
+  background: var(--color-danger-light);
+  border: 1px solid var(--color-danger);
+}
+
+.pos .message:empty,
+.sale-confirmation:empty {
+  display: none;
+}
+
+/* ---------- POS layout ---------- */
 body:has(.pos) {
   display: flex;
   flex-direction: column;
@@ -64,8 +207,34 @@ body:has(.pos) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
-  background: #fff;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-panel);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.brand {
+  font-size: var(--font-size-large);
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--color-muted);
+}
+
+.logout-button {
+  background: transparent;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.logout-button:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: #fff;
 }
 
 .pos {
@@ -73,47 +242,82 @@ body:has(.pos) {
   min-height: 0;
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
-  gap: 12px;
-  padding: 12px;
+  grid-template-rows: minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-3);
 }
 
 .pos-column {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  padding: 12px;
-  background: #fff;
-  border-radius: 8px;
+  padding: var(--space-4);
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
 }
 
 .pos-column h2 {
-  margin: 0 0 12px;
-  font-size: 20px;
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-small);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
 
+/* ---------- Categories and items ---------- */
 .button-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
   overflow-y: auto;
 }
 
-.category-button.selected {
-  background: #2a6df4;
+.category-button {
+  width: 100%;
+  min-height: 56px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.category-button.selected,
+.category-button.selected:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
   color: #fff;
+}
+
+/* Items: a 2-column grid of tiles; scrolls inside its column. */
+#items.button-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: min-content;
+  align-content: start;
 }
 
 .item-button {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 56px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--space-1);
+  min-height: 72px;
+  padding: var(--space-3);
+  text-align: left;
+}
+
+.item-name {
+  overflow-wrap: anywhere;
 }
 
 .item-price {
+  font-size: var(--font-size-large);
   font-weight: bold;
+  color: var(--color-primary);
 }
 
+/* ---------- Order panel ---------- */
 .order-lines {
   flex: 1;
   overflow-y: auto;
@@ -122,10 +326,10 @@ body:has(.pos) {
 .order-line {
   display: grid;
   grid-template-columns: 1fr auto auto repeat(3, 48px);
-  gap: 8px;
+  gap: var(--space-2);
   align-items: center;
-  padding: 4px 0;
-  border-bottom: 1px solid #ddd;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .order-line-name {
@@ -133,51 +337,77 @@ body:has(.pos) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: 600;
+}
+
+.order-line-qty {
+  color: var(--color-muted);
 }
 
 .order-line-total {
   min-width: 4.5em;
   text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 .qty-button {
+  width: 48px;
   padding: 0;
+  border-radius: 12px;
+  font-size: var(--font-size-large);
+  font-weight: bold;
 }
 
 .remove-button {
-  color: #b00020;
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.remove-button:hover:not(:disabled) {
+  background: var(--color-danger-light);
 }
 
 .order-empty {
-  color: #777;
+  margin: var(--space-6) 0;
+  text-align: center;
+  color: var(--color-muted);
 }
 
 .order-total {
   display: flex;
   justify-content: space-between;
-  padding: 12px 0;
-  border-top: 2px solid #222;
-  font-size: 24px;
+  align-items: baseline;
+  padding: var(--space-3) 0;
+  border-top: 2px solid var(--color-text);
+  font-size: var(--font-size-total);
   font-weight: bold;
+  font-variant-numeric: tabular-nums;
 }
 
 .save-button {
+  width: 100%;
   min-height: 64px;
-  margin-bottom: 8px;
-  background: #1e8e3e;
+  margin-bottom: var(--space-2);
+  background: var(--color-success);
+  border-color: var(--color-success);
   color: #fff;
-  font-size: 22px;
+  font-size: var(--font-size-large);
   font-weight: bold;
+  letter-spacing: 0.05em;
 }
 
-.sale-confirmation {
-  min-height: 1.5em;
-  margin: 0;
-  color: #1e8e3e;
-  font-weight: bold;
+.save-button:hover:not(:disabled) {
+  background: var(--color-success-dark);
 }
 
 .save-button:disabled {
-  opacity: 0.4;
-  cursor: default;
+  background: var(--color-muted);
+  border-color: var(--color-muted);
+}
+
+.sale-confirmation {
+  background: var(--color-success-light);
+  border: 1px solid var(--color-success);
+  color: var(--color-success-dark);
 }
