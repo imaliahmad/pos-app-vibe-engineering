@@ -178,6 +178,7 @@ body:has(.login) {
 
 /* On the POS screen, messages are boxes that disappear when empty. */
 .pos .message,
+.admin .message,
 .sale-confirmation {
   min-height: 0;
   margin: 0 0 var(--space-2);
@@ -186,12 +187,14 @@ body:has(.login) {
   font-weight: 600;
 }
 
-.pos .message {
+.pos .message,
+.admin .message {
   background: var(--color-danger-light);
   border: 1px solid var(--color-danger);
 }
 
 .pos .message:empty,
+.admin .message:empty,
 .sale-confirmation:empty {
   display: none;
 }
@@ -410,4 +413,126 @@ body:has(.pos) {
   background: var(--color-success-light);
   border: 1px solid var(--color-success);
   color: var(--color-success-dark);
+}
+
+/* ---------- Admin ---------- */
+/* The reports page scrolls normally; only the POS screen must fit without scrolling. */
+.admin {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+.admin h1 {
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-total);
+}
+
+.report {
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.report h2 {
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-small);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.report-table th,
+.report-table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.report-table th {
+  font-size: var(--font-size-small);
+  color: var(--color-muted);
+}
+
+.report-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.report-table .number {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.report-empty {
+  color: var(--color-muted);
+}
+
+.period-filter {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.period-button.selected,
+.period-button.selected:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.order-row {
+  cursor: pointer;
+}
+
+.order-row:hover {
+  background: var(--color-button-hover);
+}
+
+.order-row:focus-visible {
+  outline: none;
+  box-shadow: inset var(--focus-ring);
+}
+
+.order-dialog {
+  width: min(640px, 90vw);
+  padding: var(--space-6);
+  border: none;
+  border-radius: var(--radius);
+  color: var(--color-text);
+}
+
+.order-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.order-dialog h2 {
+  font-size: var(--font-size-large);
+}
+
+.order-dialog-info {
+  margin: var(--space-1) 0 var(--space-4);
+  color: var(--color-muted);
+}
+
+.order-dialog tfoot th,
+.order-dialog tfoot td {
+  border-top: 2px solid var(--color-text);
+  border-bottom: none;
+  font-size: var(--font-size-large);
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.order-dialog form {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-4);
 }

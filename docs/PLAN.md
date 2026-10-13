@@ -12,9 +12,10 @@ remove lines, and save the order. Cash only, no cart persistence, no receipts pr
 - [x] 5. POS screen: categories → items → order lines (add, change quantity, remove, running total). Frontend only, no saving yet
 - [x] 6. Save sale: `POST /api/sales`, server recalculates total, Save button, on-screen confirmation (order no., total), clear screen
 - [x] 7. Styling pass: clean, readable, touch-friendly
+- [x] 8. Admin reports: admin-only `/admin` page with all-time sales per category and per item, and orders for today / last 7 / last 30 days with order details; admin has no POS access, cashiers no admin access
 
 ## Later (not now)
-- Admin reports (daily sales, sales by item, sales by cashier)
+- Nothing yet
 
 ## Out of scope
 Discounts, taxes, card or other payment methods, cash received/change, printed receipts,

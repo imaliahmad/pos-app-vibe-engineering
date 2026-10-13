@@ -12,7 +12,8 @@ form.addEventListener("submit", async (event) => {
   const result = await apiLogin(username, password);
 
   if (result.status) {
-    window.location = "/pos";
+    // Admins see reports, cashiers use the POS.
+    window.location = result.data.role === "admin" ? "/admin" : "/pos";
     return;
   }
   message.textContent = result.message;

@@ -23,5 +23,6 @@ endpoints → handlers → services → repositories → SQLite
 - Saving a sale (header + lines) happens in one transaction: all rows or none.
 - Every handler response is built with `responses.py`. Never return a raw dict.
 - Every API endpoint except login requires `login_required`.
+- Admin-only endpoints live under /api/admin/ and use role_required('admin').
 - Passwords are hashed with `werkzeug.security` (comes with Flask). Never store plain text.
 - New endpoint: use the `add-endpoint` skill.
