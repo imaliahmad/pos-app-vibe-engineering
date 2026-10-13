@@ -12,7 +12,14 @@
     ],
     "deny": [
       "Read(./.env)",
+      "Read(./.env.*)",
       "Edit(./.env)",
+      "Edit(./.env.*)",
+      "Read(./.venv/**)",
+      "Read(./instance/**)",
+      "Read(./**/__pycache__/**)",
+      "Read(./.pytest_cache/**)",
+      "Read(./.ruff_cache/**)",
       "Bash(git clean:*)"
     ]
   },
