@@ -51,3 +51,19 @@ function apiCategoryItems(categoryId) {
 function apiSaveSale(lines) {
   return apiRequest("POST", "/api/sales", { lines });
 }
+
+function apiCategoryReport() {
+  return apiRequest("GET", "/api/admin/reports/categories");
+}
+
+function apiItemReport() {
+  return apiRequest("GET", "/api/admin/reports/items");
+}
+
+function apiOrders(period) {
+  return apiRequest("GET", `/api/admin/orders?period=${encodeURIComponent(period)}`);
+}
+
+function apiOrder(orderId) {
+  return apiRequest("GET", `/api/admin/orders/${orderId}`);
+}

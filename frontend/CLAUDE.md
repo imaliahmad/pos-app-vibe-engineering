@@ -5,6 +5,7 @@ Plain HTML, CSS and JavaScript. No frameworks, no CDN libraries, no build step.
 ## Files
 - `login.html` + `js/login.js`   login form
 - `pos.html` + `js/pos.js`       the POS screen
+- `admin.html` + `js/admin.js`   the admin reports page
 - `js/api.js`                    the ONLY file that calls `fetch()`; one function per endpoint
 - `css/style.css`                all styles
 

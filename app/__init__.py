@@ -5,6 +5,7 @@ from flask import Flask
 
 from app import db, seed
 from app.endpoints import (
+    admin_endpoints,
     auth_endpoints,
     catalog_endpoints,
     page_endpoints,
@@ -33,6 +34,7 @@ def create_app(test_config: dict | None = None) -> Flask:
 
     db.init_app(app)
     seed.init_app(app)
+    app.register_blueprint(admin_endpoints.bp)
     app.register_blueprint(auth_endpoints.bp)
     app.register_blueprint(catalog_endpoints.bp)
     app.register_blueprint(page_endpoints.bp)

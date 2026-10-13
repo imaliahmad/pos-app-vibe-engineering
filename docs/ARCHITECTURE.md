@@ -7,6 +7,7 @@ Browser (HTML/CSS/JS)  ──fetch JSON──▶  Flask  ──▶  endpoints �
         └──── serves frontend/ pages ─────┘
 ```
 Login state: Flask session cookie (`user_id`, `role`).
+Roles: a cashier uses the POS only; an admin uses the reports page only (`/admin`, `/api/admin/*`).
 The order is built in browser memory and sent once, on Save.
 
 ## Data model
@@ -38,9 +39,19 @@ CHECK constraints in `schema.sql`:
 | GET | `/api/auth/me` | login | → `{id, username, role}` |
 | GET | `/api/categories` | login | → `[{id, name}]` |
 | GET | `/api/categories/<id>/items` | login | → `[{id, name, price}]` |
-| POST | `/api/sales` | login | `{lines: [{item_id, quantity}]}` → `{sale_id, total, created_at}` |
+| POST | `/api/sales` | cashier | `{lines: [{item_id, quantity}]}` → `{sale_id, total, created_at}` |
+| GET | `/api/admin/reports/categories` | admin | → `[{id, name, quantity, revenue}]` all categories, all time, revenue desc |
+| GET | `/api/admin/reports/items` | admin | → `[{id, name, category, quantity, revenue}]` all items, all time, revenue desc |
+| GET | `/api/admin/orders?period=today\|7d\|30d` | admin | → `[{id, created_at, cashier, total}]` newest first; bad period → 400 |
+| GET | `/api/admin/orders/<id>` | admin | → `{id, created_at, cashier, total, lines: [{item_name, quantity, unit_price, line_total}]}`; unknown → 404 |
 
 All responses: `{"status", "message", "data", "errors"}`.
+Auth `cashier` / `admin`: `login_required` + `role_required(role)`; signed out → 401, wrong role → 403.
+
+## Report rules
+- Quantity and revenue come from `sale_items` (`SUM(line_total)`, the price at the time of sale).
+- Periods use dates as stored (SQLite `date('now')`, no time zones): `today` = today,
+  `7d` = today and the 6 days before, `30d` = today and the 29 days before.
 
 ## Save sale rules
 - At least one line. Quantity is a whole number from 1 to 999.
@@ -51,8 +62,9 @@ All responses: `{"status", "message", "data", "errors"}`.
 ## Pages
 | URL | File | Access |
 |---|---|---|
-| `/` | `frontend/login.html` | public; redirects to `/pos` if already signed in |
-| `/pos` | `frontend/pos.html` | signed in (admin or cashier); redirects to `/` otherwise |
+| `/` | `frontend/login.html` | public; a signed-in user is redirected to their page (admin → `/admin`, cashier → `/pos`) |
+| `/pos` | `frontend/pos.html` | cashier; signed out → `/`, admin → `/admin` |
+| `/admin` | `frontend/admin.html` | admin; signed out → `/`, cashier → `/pos` |
 | `/css/*`, `/js/*` | `frontend/css/`, `frontend/js/` | public static files (served by `page_endpoints.py`) |
 
 ## POS screen layout
@@ -66,12 +78,24 @@ All responses: `{"status", "message", "data", "errors"}`.
 └──────────────┴────────────────────────┴──────────────────────┘
 ```
 
+## Admin reports page
+```
+┌ Quick POS ─────────────────────────── Signed in as admin  [Log out] ┐
+│ Reports                                                              │
+│ CATEGORIES   Category | Quantity | Revenue                           │
+│ ITEMS        Item | Category | Quantity | Revenue                    │
+│ ORDERS       [Today] [Last 7 days] [Last 30 days]                    │
+│              Order no. | Date/time | Cashier | Total   (click a row) │
+└──────────────────────────────────────────────────────────────────────┘
+Clicking an order opens a <dialog>: Item | Quantity | Unit price | Line total, then TOTAL. [Close]
+```
+
 ## Planned backend files
 ```
 app/__init__.py, db.py, schema.sql, seed.py, auth.py, responses.py
-app/endpoints/    auth_endpoints.py, catalog_endpoints.py, sale_endpoints.py, page_endpoints.py
-app/handlers/     auth_handler.py, catalog_handler.py, sale_handler.py
-app/services/     auth_service.py, catalog_service.py, sale_service.py
-app/repositories/ user_repository.py, category_repository.py, item_repository.py, sale_repository.py
-tests/            conftest.py (temp DB + logged-in client), test_auth.py, test_catalog.py, test_sales.py
+app/endpoints/    admin_endpoints.py, auth_endpoints.py, catalog_endpoints.py, sale_endpoints.py, page_endpoints.py
+app/handlers/     auth_handler.py, catalog_handler.py, report_handler.py, sale_handler.py
+app/services/     auth_service.py, catalog_service.py, report_service.py, sale_service.py
+app/repositories/ user_repository.py, category_repository.py, item_repository.py, report_repository.py, sale_repository.py
+tests/            conftest.py (temp DB + logged-in client), test_access.py, test_auth.py, test_catalog.py, test_reports.py, test_sales.py
 ```

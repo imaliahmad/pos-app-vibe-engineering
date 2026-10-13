@@ -43,3 +43,14 @@ def auth_client(seeded_app: Flask) -> FlaskClient:
     )
     assert response.status_code == 200
     return client
+
+
+@pytest.fixture
+def admin_client(seeded_app: Flask) -> FlaskClient:
+    """A client already logged in as the seeded admin."""
+    client = seeded_app.test_client()
+    response = client.post(
+        "/api/auth/login", json={"username": "admin", "password": "admin123"}
+    )
+    assert response.status_code == 200
+    return client

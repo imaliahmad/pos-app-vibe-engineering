@@ -15,6 +15,7 @@ You review changes in Quick POS, a Flask + SQLite + plain JS point of sale.
    - **Layers:** no SQL outside repositories, no logic in endpoints, services return `(data, error)`
    - **SQL:** parameterized queries only; sale header + lines in one transaction
    - **Auth:** every API endpoint except login has `login_required`; passwords hashed
+   - **Roles:** admin endpoints and /admin page reject cashiers; POS rejects admin
    - **Responses:** all built with `responses.py` in the standard format
    - **Frontend:** `fetch()` only in `api.js`; no `innerHTML` with server data; 401 → login
    - **Tests:** happy path, bad input and not-logged-in cases exist
