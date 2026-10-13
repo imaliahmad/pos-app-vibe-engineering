@@ -47,3 +47,8 @@ Always prefix Python tools with `uv run`. Never use `pip install`.
 - Never read or edit `.env`. Never run `git clean`.
 - When a feature is done: tick it in `docs/PLAN.md`, set its spec to `Status: done`,
   and update `docs/ARCHITECTURE.md` if tables, endpoints or screens changed.
+
+## Git
+- Never commit to `main`. Each feature gets its own branch: `feature/NN-short-name` (NN = plan item).
+- Start every branch from an up-to-date `main`.
+- Commit only on the feature branch, after I confirm the message.
