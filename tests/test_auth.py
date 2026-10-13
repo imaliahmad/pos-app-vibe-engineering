@@ -102,4 +102,7 @@ def test_pages_when_signed_in(auth_client: FlaskClient) -> None:
     login = auth_client.get("/")
     assert login.status_code == 302
     assert login.headers["Location"] == "/pos"
-    assert auth_client.get("/pos").status_code == 200
+    pos = auth_client.get("/pos")
+    assert pos.status_code == 200
+    for element_id in ("categories", "items", "order-lines", "order-total"):
+        assert f'id="{element_id}"'.encode() in pos.data

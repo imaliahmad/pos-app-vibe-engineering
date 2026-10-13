@@ -11,7 +11,25 @@
     <span id="current-user"></span>
     <button type="button" id="logout-button">Log out</button>
   </header>
-  <!-- The POS screen comes in feature 5. -->
+  <main class="pos">
+    <section class="pos-column">
+      <h2>Categories</h2>
+      <div id="categories" class="button-list"></div>
+    </section>
+    <section class="pos-column">
+      <h2>Items</h2>
+      <div id="items" class="button-list"></div>
+    </section>
+    <section class="pos-column order">
+      <h2>Order</h2>
+      <div id="order-lines" class="order-lines"></div>
+      <div class="order-total">
+        <span>TOTAL</span>
+        <span id="order-total">0.00</span>
+      </div>
+      <p id="message" class="message"></p>
+    </section>
+  </main>
   <script src="/js/api.js"></script>
   <script src="/js/pos.js"></script>
 </body>
