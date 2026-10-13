@@ -1,5 +1,5 @@
 # Catalog API
-Status: planned
+Status: done
 Plan item: 4
 
 ## Goal
@@ -33,10 +33,16 @@ category with their prices, so the POS screen (feature 5) can show them.
 - Signed in, `GET /api/categories/<Drinks id>/items` → 200, 4 items as `{id, name, price}`, sorted by name,
   Cola has `price == 150` (an int).
 - Set one category `active = 0` → it is missing from `GET /api/categories`, and its items URL → 404, `status: false`.
-  Set one item `active = 0` → it is missing from its category's item list.
+- Set one item `active = 0` → it is missing from its category's item list.
+- Active category with no items → 200, `data == []`.
 - Unknown category id (e.g. `9999`) → 404, `status: false`, message "Category not found".
 - Not signed in: both endpoints → 401.
+
+Tests use the `auth_client` / `seeded_app` fixtures; they flip `active` with a direct `UPDATE` + commit
+inside `app.app_context()`. Not-signed-in tests use the plain `client` fixture.
 
 ## Out of scope
 Any POS screen / frontend changes (feature 5), item search, listing all items at once, admin CRUD for
 categories or items, showing inactive records, pagination, caching, new dependencies.
+A non-integer id (e.g. `/api/categories/abc/items`) gets Flask's default 404, not the JSON envelope;
+accepted for now.
