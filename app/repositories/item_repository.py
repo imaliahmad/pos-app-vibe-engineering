@@ -1,3 +1,5 @@
+import json
+
 from app.db import get_db
 
 
@@ -17,3 +19,13 @@ def list_active_items_by_category(category_id: int) -> list[dict]:
         (category_id,),
     )
     return [dict(row) for row in rows]
+
+
+def get_active_items(item_ids: list[int]) -> dict[int, dict]:
+    """Return the active items among `item_ids`, keyed by id."""
+    rows = get_db().execute(
+        "SELECT id, name, price FROM items"
+        " WHERE active = 1 AND id IN (SELECT value FROM json_each(?))",
+        (json.dumps(item_ids),),
+    )
+    return {row["id"]: dict(row) for row in rows}

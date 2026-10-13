@@ -4,7 +4,12 @@ import os
 from flask import Flask
 
 from app import db, seed
-from app.endpoints import auth_endpoints, catalog_endpoints, page_endpoints
+from app.endpoints import (
+    auth_endpoints,
+    catalog_endpoints,
+    page_endpoints,
+    sale_endpoints,
+)
 
 # Configured once at import, not on every create_app() call.
 logging.basicConfig(
@@ -31,4 +36,5 @@ def create_app(test_config: dict | None = None) -> Flask:
     app.register_blueprint(auth_endpoints.bp)
     app.register_blueprint(catalog_endpoints.bp)
     app.register_blueprint(page_endpoints.bp)
+    app.register_blueprint(sale_endpoints.bp)
     return app

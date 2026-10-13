@@ -10,7 +10,7 @@ remove lines, and save the order. Cash only, no cart persistence, no receipts pr
 - [x] 3. Login: login/logout/me API, `login.html`, `/pos` redirects to login when not signed in
 - [x] 4. Catalog API: list active categories, list active items of a category
 - [x] 5. POS screen: categories → items → order lines (add, change quantity, remove, running total). Frontend only, no saving yet
-- [ ] 6. Save sale: `POST /api/sales`, server recalculates total, Save button, on-screen confirmation (order no., total), clear screen
+- [x] 6. Save sale: `POST /api/sales`, server recalculates total, Save button, on-screen confirmation (order no., total), clear screen
 - [ ] 7. Styling pass: clean, readable, touch-friendly
 
 ## Later (not now)

@@ -16,7 +16,8 @@ async function apiRequest(method, path, body, redirectOn401 = true) {
 
   if (response.status === 401 && redirectOn401) {
     window.location = "/";
-    return { status: false, message: "Login required", data: null, errors: [] };
+    // The page is leaving for login: an empty message keeps the screen from flashing an error.
+    return { status: false, message: "", data: null, errors: [] };
   }
 
   try {
@@ -45,4 +46,8 @@ function apiCategories() {
 
 function apiCategoryItems(categoryId) {
   return apiRequest("GET", `/api/categories/${categoryId}/items`);
+}
+
+function apiSaveSale(lines) {
+  return apiRequest("POST", "/api/sales", { lines });
 }

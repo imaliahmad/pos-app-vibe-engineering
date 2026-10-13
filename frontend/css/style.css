@@ -160,3 +160,24 @@ body:has(.pos) {
   font-size: 24px;
   font-weight: bold;
 }
+
+.save-button {
+  min-height: 64px;
+  margin-bottom: 8px;
+  background: #1e8e3e;
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.sale-confirmation {
+  min-height: 1.5em;
+  margin: 0;
+  color: #1e8e3e;
+  font-weight: bold;
+}
+
+.save-button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
