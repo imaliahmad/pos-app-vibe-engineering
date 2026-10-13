@@ -11,7 +11,7 @@ remove lines, and save the order. Cash only, no cart persistence, no receipts pr
 - [x] 4. Catalog API: list active categories, list active items of a category
 - [x] 5. POS screen: categories → items → order lines (add, change quantity, remove, running total). Frontend only, no saving yet
 - [x] 6. Save sale: `POST /api/sales`, server recalculates total, Save button, on-screen confirmation (order no., total), clear screen
-- [ ] 7. Styling pass: clean, readable, touch-friendly
+- [x] 7. Styling pass: clean, readable, touch-friendly
 
 ## Later (not now)
 - Admin reports (daily sales, sales by item, sales by cashier)
