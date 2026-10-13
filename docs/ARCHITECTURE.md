@@ -52,7 +52,8 @@ All responses: `{"status", "message", "data", "errors"}`.
 | URL | File | Access |
 |---|---|---|
 | `/` | `frontend/login.html` | public; redirects to `/pos` if already signed in |
-| `/pos` | `frontend/pos.html` | signed in (admin or cashier) |
+| `/pos` | `frontend/pos.html` | signed in (admin or cashier); redirects to `/` otherwise |
+| `/css/*`, `/js/*` | `frontend/css/`, `frontend/js/` | public static files (served by `page_endpoints.py`) |
 
 ## POS screen layout
 ```

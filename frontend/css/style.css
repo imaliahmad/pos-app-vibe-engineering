@@ -1,0 +1,63 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  font-size: 18px;
+  color: #222;
+  background: #f4f4f4;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  min-height: 48px;
+  padding: 0 20px;
+  cursor: pointer;
+}
+
+/* Login */
+.login {
+  max-width: 360px;
+  margin: 80px auto;
+  padding: 32px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.login h1 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.login form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login input {
+  min-height: 48px;
+  padding: 0 12px;
+  margin-bottom: 8px;
+}
+
+.message {
+  min-height: 1.5em;
+  margin: 0;
+  color: #b00020;
+}
+
+/* POS placeholder */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: #fff;
+}
