@@ -1,5 +1,7 @@
 import logging
 import sqlite3
+from collections.abc import Iterator
+from contextlib import contextmanager
 
 import click
 from flask import Flask, current_app, g
@@ -15,6 +17,23 @@ def get_db() -> sqlite3.Connection:
         g.db.row_factory = sqlite3.Row
         g.db.execute("PRAGMA foreign_keys = ON")
     return g.db
+
+
+@contextmanager
+def transaction() -> Iterator[None]:
+    """Run the block as one write transaction: commit on success, roll back on error.
+
+    BEGIN IMMEDIATE takes the write lock up front, so rows read inside the block
+    cannot change before the block writes.
+    """
+    db = get_db()
+    db.execute("BEGIN IMMEDIATE")
+    try:
+        yield
+    except BaseException:
+        db.rollback()
+        raise
+    db.commit()
 
 
 def close_db(_exception: BaseException | None = None) -> None:

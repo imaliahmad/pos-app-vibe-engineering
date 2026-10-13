@@ -4,6 +4,9 @@ const MAX_QUANTITY = 999;
 
 let selectedCategoryId = null;
 
+// True while a save request is in flight: blocks a second save and order changes.
+let saving = false;
+
 // The current order. name and price are for display only; the server prices the sale.
 const order = { lines: [] };
 
@@ -16,7 +19,40 @@ function showMessage(text) {
   document.getElementById("message").textContent = text;
 }
 
+// Shows the saved order; an empty text clears it.
+function showConfirmation(text) {
+  document.getElementById("sale-confirmation").textContent = text;
+}
+
+async function saveOrder() {
+  if (saving || order.lines.length === 0) {
+    return;
+  }
+  saving = true;
+  render();
+
+  // Only ids and quantities are sent: the server prices the sale from the database.
+  const lines = order.lines.map((l) => ({ item_id: l.item_id, quantity: l.quantity }));
+  const result = await apiSaveSale(lines);
+  saving = false;
+  if (!result.status) {
+    // Keep the order so the cashier can try again.
+    showMessage(result.message);
+    render();
+    return;
+  }
+  showMessage("");
+  order.lines = [];
+  render();
+  const sale = result.data;
+  showConfirmation(`Order #${sale.sale_id} saved, total ${formatMoney(sale.total)}`);
+}
+
 function addItem(item) {
+  if (saving) {
+    return;
+  }
+  showConfirmation("");
   const line = order.lines.find((l) => l.item_id === item.id);
   if (line) {
     line.quantity = Math.min(line.quantity + 1, MAX_QUANTITY);
@@ -27,6 +63,9 @@ function addItem(item) {
 }
 
 function changeQuantity(itemId, delta) {
+  if (saving) {
+    return;
+  }
   const line = order.lines.find((l) => l.item_id === itemId);
   if (!line) {
     return;
@@ -41,6 +80,9 @@ function changeQuantity(itemId, delta) {
 }
 
 function removeLine(itemId) {
+  if (saving) {
+    return;
+  }
   order.lines = order.lines.filter((l) => l.item_id !== itemId);
   render();
 }
@@ -94,6 +136,7 @@ function render() {
   }
 
   document.getElementById("order-total").textContent = formatMoney(total);
+  document.getElementById("save-button").disabled = saving || order.lines.length === 0;
 }
 
 async function loadCurrentUser() {
@@ -170,6 +213,8 @@ async function loadItems(categoryId) {
     container.appendChild(button);
   }
 }
+
+document.getElementById("save-button").addEventListener("click", saveOrder);
 
 document.getElementById("logout-button").addEventListener("click", async () => {
   const result = await apiLogout();
